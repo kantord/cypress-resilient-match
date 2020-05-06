@@ -23,6 +23,6 @@ describe("resilientContains", () => {
   });
 
   it("verifies snapshot", () => {
-    expect(snapshotVerifier).toHaveBeenCalledWith(matchingElement, text);
+    expect(snapshotVerifier).toHaveBeenCalledWith(cy, matchingElement, text);
   });
 });
