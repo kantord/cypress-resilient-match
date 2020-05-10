@@ -22,7 +22,7 @@ module.exports = (on, config) => {
   const jsonfile = require("jsonfile");
 
   on("task", {
-    writeJSON({ filename, newData, snapshotDirPath, element }) {
+    verifyStringSnapshot({ filename, newData, snapshotDirPath, element }) {
       let currentData;
       try {
         currentData = jsonfile.readFileSync(filename);

@@ -13,7 +13,7 @@ const snapshotVerifier = async (cy, element, text, Cypress) => {
     }
   };
 
-  cy.task("writeJSON", {
+  cy.task("verifyStringSnapshot", {
     filename: snapshotFilePath,
     snapshotDirPath,
     newData,
