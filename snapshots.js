@@ -30,8 +30,6 @@ const snapshotVerifier = async (cy, text, Cypress) => {
       return element;
     });
   }
-
-  //return element;
 };
 
 module.exports = {
