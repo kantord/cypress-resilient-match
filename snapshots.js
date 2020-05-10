@@ -11,13 +11,8 @@ const snapshotVerifier = async (cy, text, Cypress) => {
     filename: snapshotFilePath
   });
 
-  const element = await cy.contains(text).then($el => {
-    console.log("🍎", $el.attr("data-test"));
-  });
-
   if (currentSnapshot) {
-    console.log(currentSnapshot);
-    return cy.get(`[data-test="fooBar"]`);
+    return cy.get(`[data-test="${currentSnapshot[text].id}"]`);
   } else {
     return cy.contains(text).then($el => {
       const newData = {
