@@ -18,4 +18,21 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-}
+  const fs = require("fs");
+  const jsonfile = require("jsonfile");
+
+  on("task", {
+    writeJSON({ filename, newData, snapshotDirPath, element }) {
+      let currentData;
+      try {
+        currentData = jsonfile.readFileSync(filename);
+      } catch {}
+      jsonfile.writeFileSync(filename, {
+        ...currentData,
+        ...newData
+      });
+
+      return element;
+    }
+  });
+};

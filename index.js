@@ -1,7 +1,7 @@
 module.exports = {
-  resilientContains: (cy, text, snapshotVerifier) => {
+  resilientContains: async (cy, text, snapshotVerifier, Cypress) => {
     const element = cy.contains(text);
-    snapshotVerifier(cy, element, text);
+    await snapshotVerifier(cy, element, text, Cypress);
 
     return element;
   }
