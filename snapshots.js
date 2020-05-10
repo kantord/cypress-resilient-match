@@ -1,26 +1,40 @@
 const path = require("path");
 
-const snapshotVerifier = async (cy, element, text, Cypress) => {
+const snapshotVerifier = async (cy, text, Cypress) => {
   const specFile = Cypress.spec.absolute;
   const specFilePath = path.dirname(specFile);
   const snapshotFileName = `${path.basename(specFile)}.json`;
   const snapshotDirPath = path.join(specFilePath, "__strings__");
   const snapshotFilePath = path.join(snapshotDirPath, snapshotFileName);
-  const newData = {
-    [text]: {
-      id: "fake id",
-      text
-    }
-  };
 
-  cy.task("verifyStringSnapshot", {
-    filename: snapshotFilePath,
-    snapshotDirPath,
-    newData,
-    element
+  const currentSnapshot = await cy.task("readJSON", {
+    filename: snapshotFilePath
   });
 
-  return cy.contains(text);
+  const element = await cy.contains(text).then($el => {
+    console.log("🍎", $el.attr("data-test"));
+  });
+
+  if (currentSnapshot) {
+    console.log(currentSnapshot);
+    return cy.get(`[data-test="fooBar"]`);
+  } else {
+    return cy.contains(text).then($el => {
+      const newData = {
+        [text]: {
+          id: $el.attr("data-test"),
+          text
+        }
+      };
+      cy.task("writeJSON", {
+        filename: snapshotFilePath,
+        snapshotDirPath,
+        newData
+      });
+
+      return element;
+    });
+  }
 
   //return element;
 };
